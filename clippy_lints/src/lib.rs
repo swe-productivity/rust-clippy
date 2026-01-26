@@ -16,8 +16,6 @@
 #![allow(
     clippy::missing_docs_in_private_items,
     clippy::must_use_candidate,
-    rustc::diagnostic_outside_of_impl,
-    rustc::untranslatable_diagnostic,
     clippy::literal_string_with_formatting_args
 )]
 #![warn(
@@ -201,6 +199,7 @@ mod manual_abs_diff;
 mod manual_assert;
 mod manual_async_fn;
 mod manual_bits;
+mod manual_checked_ops;
 mod manual_clamp;
 mod manual_float_methods;
 mod manual_hash_one;
@@ -863,6 +862,7 @@ pub fn register_lint_passes(store: &mut rustc_lint::LintStore, conf: &'static Co
         Box::new(|_| Box::new(same_length_and_capacity::SameLengthAndCapacity)),
         Box::new(move |tcx| Box::new(duration_suboptimal_units::DurationSuboptimalUnits::new(tcx, conf))),
         Box::new(move |_| Box::new(manual_take::ManualTake::new(conf))),
+        Box::new(|_| Box::new(manual_checked_ops::ManualCheckedOps)),
         // add late passes here, used by `cargo dev new_lint`
     ];
     store.late_passes.extend(late_lints);
